@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// A structure to represent a wealth seeker
+typedef struct {
+    double paper_stack; // "paper_stack" represents accumulated money
+    int years_hustled; // "years_hustled" signifies years worked
+} WealthSeeker;
+
+// Function to simulate the pursuit of wealth
+double pursueWealth(WealthSeeker *seeker) {
+    srand(time(NULL)); // Seed the random number generator
+
+    // Initialize some variables
+    double cash_flow = 0; // "cash_flow" represents money coming in
+    int grind_years = 0; // "grind_years" represents years worked
+    double bag = 5000 + (rand() % 50000); // "bag" represents starting salary between $5000 and $55000
+
+    // Simulate the pursuit of wealth over 40 years
+    while (grind_years < 40) {
+        seeker->paper_stack += bag; // "paper_stack" accumulates money
+
+        // Add random expenses and investments
+        double hustler_expenses = rand() % 20000; // "hustler_expenses" are random expenses
+        double investments = rand() % 10000;
+
+        seeker->paper_stack -= hustler_expenses;
+        seeker->paper_stack += investments;
+
+        cash_flow = seeker->paper_stack;
+        grind_years++;
+
+        // Print progress
+        printf("Year %d: Balance $%.2lf\n", grind_years, cash_flow);
+
+        // Adjust salary based on performance
+        if (cash_flow < 100000) {
+            bag *= 1.1; // Get a 10% raise for hustling hard
+        } else if (cash_flow < 1000000) {
+            bag *= 1.05; // Get a 5% raise for moderate success
+        } else {
+            bag *= 1.02; // Get a 2% raise for ballin'
+        }
+    }
+
+    return cash_flow;
+}
+
+int main() {
+    WealthSeeker seeker;
+    seeker.paper_stack = 1000; // Starting balance
+    seeker.years_hustled = 0;
+
+    double final_wealth = pursueWealth(&seeker);
+
+    printf("Final Wealth: $%.2lf\n", final_wealth);
+    
+    return 0;
+}
